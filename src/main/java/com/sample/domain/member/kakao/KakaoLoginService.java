@@ -14,6 +14,7 @@ public class KakaoLoginService implements MemberLoginService {
     @Override
     public String getAccessToken(String loginCallbackCode) {
         KakaoTokenResponse call = tokenRequestCaller.call(loginCallbackCode);
+        System.out.println("call = " + call);
         return call.idToken;
     }
 }
