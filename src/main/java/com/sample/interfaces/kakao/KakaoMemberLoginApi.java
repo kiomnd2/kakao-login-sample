@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.util.StringUtils;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,12 +15,13 @@ public class KakaoMemberLoginApi {
     private final MemberLoginService memberLoginService;
 
     @GetMapping("/callback")
-    public String loginCallback(@RequestParam(required = false) String code, @RequestParam(required = false) String state,
+    public KakaoMemberDto.LoginResponse loginCallback(@RequestParam(required = false) String code, @RequestParam(required = false) String state,
             @RequestParam(required = false) String error, @RequestParam(required = false) String error_description) {
-        System.out.println(state);
-        System.out.println(code);
-        String accessToken = memberLoginService.getAccessToken(code);
-        return accessToken;
+        String token = memberLoginService.getAccessToken(code);
+        return KakaoMemberDto.LoginResponse.builder()
+                .token(token)
+                .isError(false)
+                .build();
     }
 
 }

@@ -10,11 +10,16 @@ import java.util.Optional;
 @Service
 public class KakaoLoginService implements MemberLoginService {
     private final TokenRequestCaller tokenRequestCaller;
+    private final UserInfoRequestCaller userInfoRequestCaller;
 
     @Override
     public String getAccessToken(String loginCallbackCode) {
         KakaoTokenResponse call = tokenRequestCaller.call(loginCallbackCode);
-        System.out.println("call = " + call);
+        System.out.println("call.accessToken = " + call.accessToken);
+        KakaoUserResponse userInfo = userInfoRequestCaller.call(call.accessToken);
+        System.out.println("userInfo = " + userInfo);
+
+        userInfo.getKakaoAccount().getEmail();
         return call.idToken;
     }
 }
