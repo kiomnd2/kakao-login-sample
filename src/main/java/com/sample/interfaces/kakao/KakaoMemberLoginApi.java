@@ -18,8 +18,8 @@ public class KakaoMemberLoginApi {
             @RequestParam(required = false) String error, @RequestParam(required = false) String error_description) {
         System.out.println(state);
         System.out.println(code);
-        memberLoginService.getAccessToken(code);
-        return code;
+        String accessToken = memberLoginService.getAccessToken(code);
+        return accessToken;
     }
 
 }

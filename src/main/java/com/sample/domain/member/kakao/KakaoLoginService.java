@@ -4,13 +4,16 @@ import com.sample.domain.member.MemberLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class KakaoLoginService implements MemberLoginService {
     private final TokenRequestCaller tokenRequestCaller;
 
     @Override
-    public String getAccessToken(String LoginCallbackCode) {
-        return "";
+    public String getAccessToken(String loginCallbackCode) {
+        KakaoTokenResponse call = tokenRequestCaller.call(loginCallbackCode);
+        return call.idToken;
     }
 }

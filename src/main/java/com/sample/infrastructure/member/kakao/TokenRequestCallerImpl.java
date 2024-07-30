@@ -21,8 +21,8 @@ public class TokenRequestCallerImpl implements TokenRequestCaller {
     private static final String KAKAO_TOKEN_REQUEST_URL = "https://kauth.kakao.com";
 
     @Override
-    public Optional<KakaoTokenResponse> call(String code) {
-        KakaoTokenResponse tokenResponse = WebClient.create(KAKAO_TOKEN_REQUEST_URL).post()
+    public KakaoTokenResponse call(String code) {
+        return WebClient.create(KAKAO_TOKEN_REQUEST_URL).post()
                 .uri(uriBuilder -> uriBuilder
                         .scheme("https")
                         .path("/oauth/token")
@@ -36,6 +36,5 @@ public class TokenRequestCallerImpl implements TokenRequestCaller {
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new RuntimeException("4xx error")))
                 .bodyToMono(KakaoTokenResponse.class)
                 .block();
-        return Optional.ofNullable(tokenResponse);
     }
 }
