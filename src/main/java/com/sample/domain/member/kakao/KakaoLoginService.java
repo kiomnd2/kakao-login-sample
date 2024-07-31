@@ -2,6 +2,7 @@ package com.sample.domain.member.kakao;
 
 import com.sample.domain.member.MemberLoginService;
 import com.sample.domain.member.MemberReader;
+import com.sample.domain.member.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,20 +12,30 @@ public class KakaoLoginService implements MemberLoginService {
     private final TokenRequestCaller tokenRequestCaller;
     private final UserInfoRequestCaller userInfoRequestCaller;
     private final MemberReader memberReader;
-
+    private final JwtTokenProvider provider;
 
     @Override
-    public AccessTokenRequestResult getAccessToken(String loginCallbackCode) {
+    public String getAccessToken(String loginCallbackCode) {
         KakaoTokenResponse call = tokenRequestCaller.call(loginCallbackCode);
-        KakaoUserResponse userInfo = userInfoRequestCaller.call(call.accessToken);
-        long kakaoId = userInfo.getId();
+        return call.getAccessToken();
+    }
 
-        if (memberReader.isMember(kakaoId)) {
-            // 있으면 토큰 발급 후 리턴
+    @Override
+    public CheckUserResult getCheckMember(String accessToken) {
+        KakaoUserResponse userResponse = userInfoRequestCaller.call(accessToken);
+
+        if (memberReader.isMember(userResponse.getId())) {
+            String token = provider.createToken(userResponse.getId());
+            return CheckUserResult.builder()
+                    .kakaoId(userResponse.getId())
+                    .isJoined(true)
+                    .nickname(userResponse.getKakaoAccount().getName())
+                    .token(token)
+                    .build();
         }
 
-        return AccessTokenRequestResult.builder()
-                .kakaoId(kakaoId)
+        return CheckUserResult.builder()
+                .nickname(userResponse.getKakaoAccount().getName())
                 .isJoined(false)
                 .build();
     }

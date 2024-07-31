@@ -11,6 +11,14 @@ public class KakaoMemberDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    public static class AccessTokenResponse {
+        private String accessToken;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class LoginResponse {
         private boolean isJoined; // 가입 여부
         private Long kakaoId;
