@@ -18,8 +18,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/v1/kakao", "/api/v1/join").permitAll()
-                            .anyRequest().permitAll();
+                    auth.requestMatchers("/", "/api/v1/kakao/*", "/api/v1/join").permitAll()
+                            .anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();

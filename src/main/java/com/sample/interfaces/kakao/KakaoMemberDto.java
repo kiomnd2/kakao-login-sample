@@ -13,8 +13,8 @@ public class KakaoMemberDto {
     @Builder
     public static class LoginResponse {
         private boolean isJoined; // 가입 여부
-        private boolean isError;
+        private Long kakaoId;
         private String token;
-        private String errorDescription;
+        private String nickname;
     }
 }

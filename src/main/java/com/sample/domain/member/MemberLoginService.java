@@ -1,5 +1,7 @@
 package com.sample.domain.member;
 
+import com.sample.domain.member.kakao.AccessTokenRequestResult;
+
 public interface MemberLoginService {
-    String getAccessToken(String loginCallbackCode);
+    AccessTokenRequestResult getAccessToken(String loginCallbackCode);
 }
