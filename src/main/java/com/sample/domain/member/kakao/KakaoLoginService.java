@@ -35,6 +35,7 @@ public class KakaoLoginService implements MemberLoginService {
         }
 
         return CheckUserResult.builder()
+                .kakaoId(userResponse.getId())
                 .nickname(userResponse.getKakaoAccount().getName())
                 .isJoined(false)
                 .build();

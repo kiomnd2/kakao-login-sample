@@ -26,7 +26,7 @@ public class KakaoMemberLoginApi {
     }
 
     @PostMapping("/auth-check")
-    public CommonResponse<KakaoMemberDto.LoginResponse> authCheck(@RequestHeader("X-AUTH-KEY") String accessToken) {
+    public CommonResponse<KakaoMemberDto.LoginResponse> authCheck(@RequestHeader String accessToken) {
         CheckUserResult checkMember = memberLoginService.getCheckMember(accessToken);
         return CommonResponse.success(KakaoMemberDto.LoginResponse.builder()
                         .kakaoId(checkMember.kakaoId())
