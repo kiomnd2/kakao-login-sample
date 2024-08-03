@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/", "/api/v1/kakao/*", "/api/v1/join").permitAll()
+                    auth.requestMatchers("/", "/kakao/test", "/api/v1/kakao/*", "/api/v1/join", "/kakao/callback").permitAll()
                             .anyRequest().authenticated();
                 })
                 .formLogin(AbstractHttpConfigurer::disable)

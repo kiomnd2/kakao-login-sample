@@ -13,18 +13,6 @@ import org.thymeleaf.util.StringUtils;
 public class KakaoMemberLoginApi {
     private final MemberLoginService memberLoginService;
 
-    @GetMapping("/callback")
-    public CommonResponse<KakaoMemberDto.AccessTokenResponse> loginCallback(@RequestParam(required = false) String code, @RequestParam(required = false) String state,
-                                                                     @RequestParam(required = false) String error, @RequestParam(required = false) String error_description) {
-        if (!StringUtils.isEmpty(error)) {
-            return CommonResponse.failed(error, error_description);
-        }
-        return CommonResponse.success(KakaoMemberDto.AccessTokenResponse
-                .builder()
-                .accessToken(memberLoginService.getAccessToken(code))
-                .build());
-    }
-
     @PostMapping("/auth-check")
     public CommonResponse<KakaoMemberDto.LoginResponse> authCheck(@RequestHeader String accessToken) {
         CheckUserResult checkMember = memberLoginService.getCheckMember(accessToken);
